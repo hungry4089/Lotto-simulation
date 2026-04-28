@@ -56,11 +56,15 @@ function updateHistoryWheel(winningResult, highestRank, isWinHistory = false) {
     const entry = document.createElement('div');
     entry.className = 'history-entry';
     
+    // Create a Set of all numbers currently in the user's list for efficient lookup
+    const allMyNumbers = new Set(state.myNumberSets.flat());
+    
     const ballsDiv = document.createElement('div');
     ballsDiv.className = 'entry-balls';
     winningResult.numbers.forEach(n => {
         const b = document.createElement('div');
         b.className = `entry-ball ${getBallColorClass(n)}`;
+        if (allMyNumbers.has(n)) b.classList.add('history-hit');
         b.textContent = n;
         ballsDiv.appendChild(b);
     });
@@ -68,6 +72,7 @@ function updateHistoryWheel(winningResult, highestRank, isWinHistory = false) {
     ballsDiv.appendChild(plus);
     const bonusB = document.createElement('div');
     bonusB.className = `entry-ball ${getBallColorClass(winningResult.bonus)}`;
+    if (allMyNumbers.has(winningResult.bonus)) bonusB.classList.add('history-hit');
     bonusB.textContent = winningResult.bonus;
     ballsDiv.appendChild(bonusB);
 

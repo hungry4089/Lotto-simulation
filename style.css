@@ -162,16 +162,19 @@ header h1 {
   align-items: center;
 }
 
-.entry-ball {
-  width: clamp(18px, 4.5vw, 22px);
-  height: clamp(18px, 4.5vw, 22px);
-  font-size: clamp(0.6rem, 2vw, 0.7rem);
-  flex-shrink: 0;
+.entry-ball.history-hit {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+  z-index: 1;
+  position: relative;
+}
+
+.entry-ball.history-hit::after {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
   border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
+  background: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
 }
 
 .current-draw {
