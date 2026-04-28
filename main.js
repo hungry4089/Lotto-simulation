@@ -82,7 +82,7 @@ function updateHistoryWheel(winningResult, highestRank, isWinHistory = false) {
 
     wheel.prepend(entry);
     
-    const limit = 5;
+    const limit = 8;
     if (wheel.childNodes.length > limit) wheel.removeChild(wheel.lastChild);
 }
 
