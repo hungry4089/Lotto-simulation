@@ -298,6 +298,8 @@ button:hover { opacity: 0.9; }
 .mini-chart-container { height: 150px; margin-bottom: 15px; }
 .summary-card { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
 .win-count-card { background: rgba(34, 197, 94, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+.stat-values { display: flex; align-items: center; gap: 8px; }
+.odds-info { font-size: 0.75rem; color: var(--text-dim); font-weight: normal; }
 
 .chart-label {
   font-size: 0.7rem;
