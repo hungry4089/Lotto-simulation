@@ -57,9 +57,11 @@
                             <option value="5">5등 이상 당첨될 때까지</option>
                         </select>
                     </div>
-                    <button id="start-btn" class="primary-btn">시작</button>
-                    <button id="stop-btn" class="danger-btn" style="display:none;">중단</button>
-                    <button id="reset-btn" class="reset-btn">초기화</button>
+                    <div class="btn-group">
+                        <button id="start-btn" class="primary-btn">시작</button>
+                        <button id="stop-btn" class="danger-btn" style="display:none;">중단</button>
+                        <button id="reset-btn" class="reset-btn">초기화</button>
+                    </div>
                 </div>
 
                 <div class="current-draw">
@@ -68,13 +70,19 @@
                     </div>
                 </div>
 
-                <div class="history-wheel-container">
-                    <div class="history-header">
-                        <span>실시간 추첨 내역</span>
-                        <span id="draw-count">0회 시도</span>
+                <div class="history-container">
+                    <div class="history-box">
+                        <div class="history-header">
+                            <span>실시간 추첨 내역</span>
+                            <span id="draw-count">0회 시도</span>
+                        </div>
+                        <div id="history-wheel" class="history-wheel"></div>
                     </div>
-                    <div id="history-wheel" class="history-wheel">
-                        <!-- 실시간 추첨 내역 휠 -->
+                    <div class="history-box">
+                        <div class="history-header">
+                            <span>당첨 내역</span>
+                        </div>
+                        <div id="win-history-wheel" class="history-wheel"></div>
                     </div>
                 </div>
             </section>

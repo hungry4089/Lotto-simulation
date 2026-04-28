@@ -50,8 +50,9 @@ function createBallElement(num, sizeClass = '') {
     return ball;
 }
 
-function updateHistoryWheel(winningResult, highestRank) {
-    const wheel = document.getElementById('history-wheel');
+function updateHistoryWheel(winningResult, highestRank, isWinHistory = false) {
+    const wheelId = isWinHistory ? 'win-history-wheel' : 'history-wheel';
+    const wheel = document.getElementById(wheelId);
     const entry = document.createElement('div');
     entry.className = 'history-entry';
     
@@ -75,12 +76,15 @@ function updateHistoryWheel(winningResult, highestRank) {
     if (highestRank > 0) {
         const tag = document.createElement('span');
         tag.className = `win-tag win-${highestRank}`;
-        tag.textContent = `${highestRank}등 당첨!`;
+        tag.textContent = `${highestRank}등`;
         entry.appendChild(tag);
     }
 
     wheel.prepend(entry);
-    if (wheel.childNodes.length > 50) wheel.removeChild(wheel.lastChild);
+    
+    // Performance: limit history size
+    const limit = isWinHistory ? 100 : 50;
+    if (wheel.childNodes.length > limit) wheel.removeChild(wheel.lastChild);
 }
 
 function updateStats(numbers) {
@@ -181,8 +185,12 @@ function performDraws(batchSize) {
             }
         });
 
+        // Log to real-time history (all draws)
+        updateHistoryWheel(draw, currentHighest, false);
+
         if (currentHighest > 0) {
-            updateHistoryWheel(draw, currentHighest);
+            // Log to winning history
+            updateHistoryWheel(draw, currentHighest, true);
             lastWinHits = hitsForHighest;
             if (currentHighest === 1) {
                 triggerCelebration();
@@ -196,8 +204,6 @@ function performDraws(batchSize) {
                 return true;
             }
         }
-        
-        if (state.drawCount % 200 === 0) updateHistoryWheel(draw, 0);
     }
 
     const totalSpent = state.drawCount * rowCount * 1000;
@@ -259,7 +265,10 @@ function simLoop(timestamp) {
             lastTimestamp = timestamp;
         }
     } else {
-        const batchSize = Math.floor((speed - 10) * 0.5) + 1;
+        // High speed mode: 11~100 (more draws per frame)
+        // Note: Logging ALL draws at high speed may impact performance, 
+        // but we'll try to keep it balanced by limiting DOM size in updateHistoryWheel.
+        const batchSize = Math.floor((speed - 10) * 0.2) + 1;
         shouldStop = performDraws(batchSize);
     }
 
@@ -414,6 +423,7 @@ function resetSimulation() {
     document.getElementById('total-cost').textContent = '0원';
     document.getElementById('total-time').textContent = '0주';
     document.getElementById('history-wheel').innerHTML = '';
+    document.getElementById('win-history-wheel').innerHTML = '';
     document.getElementById('current-balls').innerHTML = '';
     
     for (let i = 1; i <= 5; i++) {
