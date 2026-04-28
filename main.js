@@ -142,6 +142,7 @@ let lastTimestamp = 0;
 
 function performDraws(batchSize) {
     let lastDraw = null;
+    let lastWinHits = [];
     const rows = document.querySelectorAll('.number-row');
     const rowCount = rows.length;
 
@@ -167,22 +168,32 @@ function performDraws(batchSize) {
         }
 
         let currentHighest = 0;
+        let hitsForHighest = [];
         state.myNumberSets.forEach(set => {
             const rank = checkWinning(set, draw.numbers, draw.bonus);
             if (rank > 0) {
                 updateWinStats(rank);
                 if (currentHighest === 0 || rank < currentHighest) {
                     currentHighest = rank;
+                    hitsForHighest = set.filter(n => draw.numbers.includes(n));
+                    if (set.includes(draw.bonus)) hitsForHighest.push(draw.bonus);
                 }
             }
         });
 
         if (currentHighest > 0) {
             updateHistoryWheel(draw, currentHighest);
+            lastWinHits = hitsForHighest;
+            if (currentHighest === 1) {
+                triggerCelebration();
+                stopSimulation(`축하합니다! 1등 당첨입니다!`);
+                renderCurrentBalls(draw, hitsForHighest);
+                return true;
+            }
             if (currentHighest <= state.targetRank) {
                 stopSimulation(`축하합니다! ${currentHighest}등에 당첨되어 중단합니다.`);
-                renderCurrentBalls(draw);
-                return true; // Stop signal
+                renderCurrentBalls(draw, hitsForHighest);
+                return true;
             }
         }
         
@@ -193,8 +204,46 @@ function performDraws(batchSize) {
     document.getElementById('draw-count').textContent = `${state.drawCount.toLocaleString()}회 시도`;
     document.getElementById('total-cost').textContent = `${totalSpent.toLocaleString()}원`;
     document.getElementById('total-time').textContent = formatTime(state.drawCount);
-    renderCurrentBalls(lastDraw);
+    renderCurrentBalls(lastDraw, lastWinHits);
     return false;
+}
+
+function triggerCelebration() {
+    const overlay = document.createElement('div');
+    overlay.className = 'celebration-overlay';
+    overlay.innerHTML = `
+        <div class="celebration-text">1등 당첨!</div>
+        <div style="font-size: 2rem; color: white;">당신은 이제 부자입니다!</div>
+    `;
+    document.body.appendChild(overlay);
+
+    for (let i = 0; i < 50; i++) {
+        createFirework();
+    }
+
+    setTimeout(() => {
+        overlay.remove();
+    }, 5000);
+}
+
+function createFirework() {
+    const fw = document.createElement('div');
+    fw.className = 'firework';
+    fw.style.left = Math.random() * 100 + 'vw';
+    fw.style.top = Math.random() * 100 + 'vh';
+    fw.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    fw.style.boxShadow = `0 0 10px ${fw.style.backgroundColor}`;
+    document.body.appendChild(fw);
+    
+    const animation = fw.animate([
+        { transform: 'scale(0)', opacity: 1 },
+        { transform: 'scale(20)', opacity: 0 }
+    ], {
+        duration: 1000 + Math.random() * 1000,
+        easing: 'ease-out'
+    });
+
+    animation.onfinish = () => fw.remove();
 }
 
 function simLoop(timestamp) {
@@ -204,14 +253,12 @@ function simLoop(timestamp) {
     let shouldStop = false;
 
     if (speed <= 10) {
-        // 1~10: 1초에 speed번 만큼 추첨 (1회~10회)
         const interval = 1000 / speed;
         if (timestamp - lastTimestamp >= interval) {
             shouldStop = performDraws(1);
             lastTimestamp = timestamp;
         }
     } else {
-        // 11~100: 매 프레임마다 여러 번 추첨 (배치 모드)
         const batchSize = Math.floor((speed - 10) * 0.5) + 1;
         shouldStop = performDraws(batchSize);
     }
@@ -221,13 +268,20 @@ function simLoop(timestamp) {
     }
 }
 
-function renderCurrentBalls(draw) {
+function renderCurrentBalls(draw, hits = []) {
+    if (!draw) return;
     const container = document.getElementById('current-balls');
     container.innerHTML = '';
-    draw.numbers.forEach(n => container.appendChild(createBallElement(n)));
+    draw.numbers.forEach(n => {
+        const ball = createBallElement(n);
+        if (hits.includes(n)) ball.classList.add('win-hit');
+        container.appendChild(ball);
+    });
     const plus = document.createElement('div'); plus.className = 'bonus-plus'; plus.textContent = '+'; plus.style.fontSize = '2rem';
     container.appendChild(plus);
-    container.appendChild(createBallElement(draw.bonus));
+    const bonusBall = createBallElement(draw.bonus);
+    if (hits.includes(draw.bonus)) bonusBall.classList.add('win-hit');
+    container.appendChild(bonusBall);
 }
 
 function formatTime(count) {
@@ -258,7 +312,8 @@ function startSimulation() {
     state.isSimulating = true;
     document.getElementById('start-btn').style.display = 'none';
     document.getElementById('stop-btn').style.display = 'block';
-    simLoop();
+    lastTimestamp = performance.now();
+    simLoop(lastTimestamp);
 }
 
 function stopSimulation(msg) {
