@@ -138,16 +138,14 @@ function initChart() {
 
 // --- Simulation Loop ---
 let animationFrameId = null;
+let lastTimestamp = 0;
 
-function simLoop() {
-    if (!state.isSimulating) return;
-
-    const BATCH_SIZE = 15; 
+function performDraws(batchSize) {
     let lastDraw = null;
     const rows = document.querySelectorAll('.number-row');
     const rowCount = rows.length;
 
-    for (let i = 0; i < BATCH_SIZE; i++) {
+    for (let i = 0; i < batchSize; i++) {
         state.drawCount++;
         const draw = generateNumbers();
         lastDraw = draw;
@@ -159,8 +157,7 @@ function simLoop() {
                 const rnd = generateNumbers().numbers;
                 state.myNumberSets.push(rnd);
                 
-                // 시각적 효과를 위해 마지막 배치에서만 UI 업데이트 (성능 고려)
-                if (i === BATCH_SIZE - 1) {
+                if (i === batchSize - 1) {
                     const inputs = row.querySelectorAll('input');
                     inputs.forEach((inp, idx) => inp.value = rnd[idx]);
                 }
@@ -185,7 +182,7 @@ function simLoop() {
             if (currentHighest <= state.targetRank) {
                 stopSimulation(`축하합니다! ${currentHighest}등에 당첨되어 중단합니다.`);
                 renderCurrentBalls(draw);
-                return;
+                return true; // Stop signal
             }
         }
         
@@ -197,8 +194,31 @@ function simLoop() {
     document.getElementById('total-cost').textContent = `${totalSpent.toLocaleString()}원`;
     document.getElementById('total-time').textContent = formatTime(state.drawCount);
     renderCurrentBalls(lastDraw);
+    return false;
+}
 
-    animationFrameId = requestAnimationFrame(simLoop);
+function simLoop(timestamp) {
+    if (!state.isSimulating) return;
+
+    const speed = parseInt(document.getElementById('speed-slider').value);
+    let shouldStop = false;
+
+    if (speed <= 10) {
+        // 1~10: 1초에 speed번 만큼 추첨 (1회~10회)
+        const interval = 1000 / speed;
+        if (timestamp - lastTimestamp >= interval) {
+            shouldStop = performDraws(1);
+            lastTimestamp = timestamp;
+        }
+    } else {
+        // 11~100: 매 프레임마다 여러 번 추첨 (배치 모드)
+        const batchSize = Math.floor((speed - 10) * 0.5) + 1;
+        shouldStop = performDraws(batchSize);
+    }
+
+    if (!shouldStop) {
+        animationFrameId = requestAnimationFrame(simLoop);
+    }
 }
 
 function renderCurrentBalls(draw) {
