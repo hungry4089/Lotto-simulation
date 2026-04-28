@@ -50,6 +50,18 @@ header h1 {
   box-sizing: border-box;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   min-width: 0;
+  /* 버튼과 입력을 제외한 모든 영역의 터치 이벤트를 배경으로 전달 */
+  pointer-events: none;
+}
+
+/* 상호작용이 필요한 요소들만 터치 이벤트 활성화 */
+button, input, select, .my-numbers-list, .history-wheel {
+  pointer-events: auto;
+}
+
+/* 하지만 히스토리 휠 내부의 개별 항목은 다시 차단하여 부드러운 스크롤 유도 */
+.history-entry, .mini-chart-container, .chart-label-groups {
+  pointer-events: none;
 }
 
 .batch-control-row {
@@ -90,6 +102,8 @@ header h1 {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 10px;
+  /* 리스트 영역은 스크롤이 가능해야 하므로 auto */
+  pointer-events: auto;
 }
 
 .number-row {
@@ -100,6 +114,13 @@ header h1 {
   background: rgba(0,0,0,0.2);
   padding: 6px;
   border-radius: 6px;
+  /* 행 자체는 터치 무시하여 스크롤 원활하게 */
+  pointer-events: none;
+}
+
+.number-row input, .number-row button {
+  /* 입력창과 버튼은 다시 터치 가능하게 */
+  pointer-events: auto;
 }
 
 .number-row input {
@@ -147,13 +168,14 @@ header h1 {
 }
 
 .history-wheel {
-  height: 280px; /* 8개 항목에 최적화된 고정 높이 */
-  overflow: hidden; /* 내부 스크롤 제거하여 화면 떨림 방지 */
+  height: 280px;
+  overflow: hidden;
   border: 1px solid #334155;
   border-radius: 8px;
   background: #0f172a;
   padding: 5px;
-  pointer-events: none; /* 터치가 배경(부모 스크롤)으로 전달되게 함 */
+  /* 내역 영역 전체 터치 무시하여 페이지 스크롤 방해 금지 */
+  pointer-events: none;
 }
 
 .history-entry {
@@ -163,7 +185,7 @@ header h1 {
   padding: 6px;
   border-bottom: 1px solid #1e293b;
   font-size: 0.8rem;
-  height: 34px; /* 높이 고정으로 안정성 확보 */
+  height: 34px;
   box-sizing: border-box;
 }
 
@@ -297,12 +319,12 @@ button:hover { opacity: 0.9; }
 
 /* Stats Panel */
 .mini-chart-container { 
-  height: 80px; /* 기존 150px에서 반토막 */
+  height: 80px;
   margin-bottom: 10px;
-  pointer-events: none; /* 차트 터치 방해 금지 */
+  pointer-events: none;
 }
-.summary-card { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 10px; pointer-events: none; }
-.win-count-card { background: rgba(34, 197, 94, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; pointer-events: none; }
+.summary-card { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+.win-count-card { background: rgba(34, 197, 94, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
 .stat-values { display: flex; align-items: center; gap: 8px; }
 .odds-info { font-size: 0.75rem; color: var(--text-dim); font-weight: normal; }
 
@@ -312,6 +334,7 @@ button:hover { opacity: 0.9; }
   font-weight: bold;
   margin-top: 4px;
   color: var(--text-dim);
+  pointer-events: none;
 }
 
 .label-group {
