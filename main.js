@@ -214,7 +214,7 @@ function performDraws(batchSize) {
             lastWinHits = hitsForHighest;
             if (currentHighest === 1) {
                 triggerCelebration();
-                stopSimulation(`축하합니다! 1등 당첨입니다!`);
+                stopSimulation(); // 1등은 alert 없이 오버레이만 표시
                 renderCurrentBalls(draw, hitsForHighest);
                 highlightMyNumbers(draw.numbers, draw.bonus);
                 updateUI(rowCount);
@@ -253,9 +253,16 @@ function triggerCelebration() {
     overlay.innerHTML = `
         <div class="celebration-text">1등 당첨!</div>
         <div style="font-size: 2rem; color: white; margin-top: 10px;">축하합니다! 당신은 이제 부자입니다!</div>
-        <div style="font-size: 1.2rem; color: #94a3b8; margin-top: 30px;">(화면을 클릭하면 닫힙니다)</div>
+        <div style="font-size: 1.2rem; color: #94a3b8; margin-top: 30px; opacity: 0;" id="close-hint">(화면을 클릭하면 닫힙니다)</div>
     `;
     document.body.appendChild(overlay);
+
+    let canClose = false;
+    setTimeout(() => {
+        canClose = true;
+        const hint = document.getElementById('close-hint');
+        if (hint) hint.style.opacity = '1';
+    }, 500);
 
     // 폭죽 지속 생성
     const fireworkInterval = setInterval(() => {
@@ -265,14 +272,15 @@ function triggerCelebration() {
     }, 200);
 
     const closeOverlay = () => {
+        if (!canClose) return;
         clearInterval(fireworkInterval);
         overlay.remove();
-        // 남아있는 폭죽들도 정리 (선택사항)
         document.querySelectorAll('.firework').forEach(fw => fw.remove());
     };
 
     overlay.addEventListener('click', closeOverlay);
     overlay.addEventListener('touchstart', (e) => {
+        if (!canClose) return;
         e.preventDefault();
         closeOverlay();
     }, { passive: false });
