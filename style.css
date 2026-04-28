@@ -300,23 +300,30 @@ button:hover { opacity: 0.9; }
 .win-count-card { background: rgba(34, 197, 94, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
 
 .chart-label {
-  text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--text-dim);
-  margin-top: 5px;
+  margin-top: 8px;
   margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 4px;
+  padding: 0 2px;
   font-weight: bold;
 }
 
 .chart-label .num-indicator {
   background: #334155;
-  padding: 2px 6px;
+  padding: 2px 5px;
   border-radius: 4px;
   color: white;
+  min-width: 18px;
+  text-align: center;
+}
+
+.dots {
+  color: #334155;
+  letter-spacing: 1px;
+  font-weight: normal;
 }
 
 /* Responsive */
