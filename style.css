@@ -306,26 +306,27 @@ button:hover { opacity: 0.9; }
 .stat-values { display: flex; align-items: center; gap: 8px; }
 .odds-info { font-size: 0.75rem; color: var(--text-dim); font-weight: normal; }
 
-.chart-label {
-  font-size: 0.7rem;
-  color: var(--text-dim);
-  margin-top: 4px;
-  margin-bottom: 10px;
+.chart-label-groups {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2px;
+  font-size: 0.65rem;
   font-weight: bold;
+  margin-top: 4px;
+  color: var(--text-dim);
 }
 
-.chart-label .num-indicator {
-  background: #334155;
-  padding: 1px 4px;
-  border-radius: 3px;
-  color: white;
-  min-width: 16px;
-  text-align: center;
+.label-group {
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 2px;
 }
+
+.label-group.g-yellow { flex: 10; justify-content: space-between; border-bottom: 2px solid #facc15; }
+.label-group.g-blue   { flex: 10; justify-content: flex-end; border-bottom: 2px solid #3b82f6; }
+.label-group.g-red    { flex: 10; justify-content: flex-end; border-bottom: 2px solid #ef4444; }
+.label-group.g-gray   { flex: 10; justify-content: flex-end; border-bottom: 2px solid #94a3b8; }
+.label-group.g-green  { flex: 5;  justify-content: flex-end; border-bottom: 2px solid #22c55e; }
+
+.label-group span { transform: translateY(2px); background: var(--panel-bg); padding: 0 2px; }
 
 /* Responsive */
 @media (max-width: 1200px) {

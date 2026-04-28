@@ -94,18 +94,12 @@
                     <div class="mini-chart-container">
                         <canvas id="mini-freq-chart"></canvas>
                     </div>
-                    <div class="chart-label">
-                        <span class="num-indicator">1</span>
-                        <span class="dots">...</span>
-                        <span class="num-indicator">10</span>
-                        <span class="dots">...</span>
-                        <span class="num-indicator">20</span>
-                        <span class="dots">...</span>
-                        <span class="num-indicator">30</span>
-                        <span class="dots">...</span>
-                        <span class="num-indicator">40</span>
-                        <span class="dots">...</span>
-                        <span class="num-indicator">45</span>
+                    <div class="chart-label-groups">
+                        <div class="label-group g-yellow"><span>1</span><span>10</span></div>
+                        <div class="label-group g-blue"><span>20</span></div>
+                        <div class="label-group g-red"><span>30</span></div>
+                        <div class="label-group g-gray"><span>40</span></div>
+                        <div class="label-group g-green"><span>45</span></div>
                     </div>
                 </div>
 
@@ -151,6 +145,20 @@
                         </div>
                     </div>
                     <div class="win-stat-item">
+                        <span>5등</span>
+                        <div class="stat-values">
+                            <strong id="stat-win-5">0회</strong>
+                            <span class="odds-info">(1/45)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
+class="win-stat-item">
                         <span>5등</span>
                         <div class="stat-values">
                             <strong id="stat-win-5">0회</strong>

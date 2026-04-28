@@ -227,6 +227,7 @@ function performDraws(batchSize) {
 
     const totalSpent = state.drawCount * rowCount * 1000;
     document.getElementById('draw-count').textContent = `${state.drawCount.toLocaleString()}회 시도`;
+    document.getElementById('total-count-summary').textContent = `${state.drawCount.toLocaleString()}회`;
     document.getElementById('total-cost').textContent = `${totalSpent.toLocaleString()}원`;
     document.getElementById('total-time').textContent = formatTime(state.drawCount);
     
