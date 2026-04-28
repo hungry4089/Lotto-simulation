@@ -252,17 +252,30 @@ function triggerCelebration() {
     overlay.className = 'celebration-overlay';
     overlay.innerHTML = `
         <div class="celebration-text">1등 당첨!</div>
-        <div style="font-size: 2rem; color: white;">당신은 이제 부자입니다!</div>
+        <div style="font-size: 2rem; color: white; margin-top: 10px;">축하합니다! 당신은 이제 부자입니다!</div>
+        <div style="font-size: 1.2rem; color: #94a3b8; margin-top: 30px;">(화면을 클릭하면 닫힙니다)</div>
     `;
     document.body.appendChild(overlay);
 
-    for (let i = 0; i < 50; i++) {
-        createFirework();
-    }
+    // 폭죽 지속 생성
+    const fireworkInterval = setInterval(() => {
+        for (let i = 0; i < 5; i++) {
+            createFirework();
+        }
+    }, 200);
 
-    setTimeout(() => {
+    const closeOverlay = () => {
+        clearInterval(fireworkInterval);
         overlay.remove();
-    }, 5000);
+        // 남아있는 폭죽들도 정리 (선택사항)
+        document.querySelectorAll('.firework').forEach(fw => fw.remove());
+    };
+
+    overlay.addEventListener('click', closeOverlay);
+    overlay.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        closeOverlay();
+    }, { passive: false });
 }
 
 function createFirework() {

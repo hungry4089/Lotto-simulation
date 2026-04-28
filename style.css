@@ -334,7 +334,8 @@ button:hover { opacity: 0.9; }
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
 }
 .celebration-text { font-size: clamp(2rem, 10vw, 5rem); font-weight: 900; color: var(--gold); text-shadow: 0 0 20px rgba(245, 158, 11, 0.8); margin-bottom: 20px; text-align: center; }
 .firework { position: absolute; width: 5px; height: 5px; border-radius: 50%; }
