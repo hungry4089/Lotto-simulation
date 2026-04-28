@@ -162,18 +162,30 @@ header h1 {
   align-items: center;
 }
 
-.entry-ball.history-hit {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
-  z-index: 1;
+.entry-ball {
+  width: clamp(20px, 4.5vw, 24px);
+  height: clamp(20px, 4.5vw, 24px);
+  font-size: clamp(0.65rem, 2vw, 0.75rem);
+  flex-shrink: 0;
+  border-radius: 50% !important; /* 무조건 동그라미 유지 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
   position: relative;
+}
+
+.entry-ball.history-hit {
+  box-shadow: 0 0 8px 2px rgba(34, 197, 94, 0.8); /* 은은한 초록색 광채 */
+  z-index: 1;
 }
 
 .entry-ball.history-hit::after {
   content: '';
   position: absolute;
-  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  top: 0; left: 0; right: 0; bottom: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(34, 197, 94, 0.2);
   pointer-events: none;
 }
 
