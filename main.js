@@ -142,6 +142,7 @@ function initChart() {
 // --- Simulation Loop ---
 let animationFrameId = null;
 let lastTimestamp = 0;
+let totalComparedCount = 0; // 누적 대조 수 별도 관리
 
 function highlightMyNumbers(winningNumbers, bonus) {
     const rows = document.querySelectorAll('.number-row');
@@ -189,6 +190,9 @@ function performDraws(batchSize) {
             syncMyNumbers();
         }
 
+        // 현재 회차에서 대조한 번호 수 누적 (내 번호 목록 개수 반영)
+        totalComparedCount += state.myNumberSets.length;
+
         let currentHighest = 0;
         let hitsForHighest = [];
         state.myNumberSets.forEach(set => {
@@ -203,7 +207,6 @@ function performDraws(batchSize) {
             }
         });
 
-        // 실시간 추첨 내역 업데이트
         updateHistoryWheel(draw, currentHighest, false);
 
         if (currentHighest > 0) {
@@ -214,28 +217,34 @@ function performDraws(batchSize) {
                 stopSimulation(`축하합니다! 1등 당첨입니다!`);
                 renderCurrentBalls(draw, hitsForHighest);
                 highlightMyNumbers(draw.numbers, draw.bonus);
+                updateUI(rowCount);
                 return true;
             }
             if (currentHighest <= state.targetRank) {
                 stopSimulation(`축하합니다! ${currentHighest}등에 당첨되어 중단합니다.`);
                 renderCurrentBalls(draw, hitsForHighest);
                 highlightMyNumbers(draw.numbers, draw.bonus);
+                updateUI(rowCount);
                 return true;
             }
         }
     }
 
-    const totalSpent = state.drawCount * rowCount * 1000;
-    document.getElementById('draw-count').textContent = `${state.drawCount.toLocaleString()}회 시도`;
-    document.getElementById('total-count-summary').textContent = `${state.drawCount.toLocaleString()}회`;
-    document.getElementById('total-cost').textContent = `${totalSpent.toLocaleString()}원`;
-    document.getElementById('total-time').textContent = formatTime(state.drawCount);
+    updateUI(rowCount);
     
     if (lastDraw) {
         renderCurrentBalls(lastDraw, lastWinHits);
         highlightMyNumbers(lastDraw.numbers, lastDraw.bonus);
     }
     return false;
+}
+
+function updateUI(rowCount) {
+    const totalSpent = state.drawCount * rowCount * 1000;
+    document.getElementById('draw-count').textContent = `${state.drawCount.toLocaleString()}회 추첨`;
+    document.getElementById('total-count-summary').textContent = `${totalComparedCount.toLocaleString()}개`;
+    document.getElementById('total-cost').textContent = `${totalSpent.toLocaleString()}원`;
+    document.getElementById('total-time').textContent = formatTime(state.drawCount);
 }
 
 function triggerCelebration() {
@@ -437,13 +446,14 @@ function resetSimulation() {
     if (!confirm('모든 추첨 데이터를 초기화할까요? (내 번호 목록은 유지됩니다)')) return;
 
     state.drawCount = 0;
+    totalComparedCount = 0; // 초기화 추가
     state.frequencies.fill(0);
     state.winStats = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     
     document.getElementById('draw-count').textContent = '0회 추첨';
     document.getElementById('total-count-summary').textContent = '0개';
     document.getElementById('total-cost').textContent = '0원';
-
+    document.getElementById('total-time').textContent = '0주';
     document.getElementById('history-wheel').innerHTML = '';
     document.getElementById('win-history-wheel').innerHTML = '';
     document.getElementById('current-balls').innerHTML = '';
@@ -455,8 +465,5 @@ function resetSimulation() {
     if (state.miniChart) {
         state.miniChart.data.datasets[0].data = state.frequencies.slice(1);
         state.miniChart.update();
-    }
-}
-     state.miniChart.update();
     }
 }
