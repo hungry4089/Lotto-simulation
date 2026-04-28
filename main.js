@@ -239,8 +239,8 @@ function performDraws(batchSize) {
     return false;
 }
 
-function updateUI(rowCount) {
-    const totalSpent = state.drawCount * rowCount * 1000;
+function updateUI() {
+    const totalSpent = totalComparedCount * 1000; // 누적 대조 수에 비례하여 지출 계산
     document.getElementById('draw-count').textContent = `${state.drawCount.toLocaleString()}회 추첨`;
     document.getElementById('total-count-summary').textContent = `${totalComparedCount.toLocaleString()}개`;
     document.getElementById('total-cost').textContent = `${totalSpent.toLocaleString()}원`;
