@@ -24,19 +24,19 @@
                         <label class="checkbox-label-inline">
                             <input type="checkbox" id="random-each-draw-toggle"> 매회 무작위
                         </label>
-                        <span id="weekly-cost" class="cost-badge">1,000원/주 (1개)</span>
-                        <div class="batch-group">
-                            <input type="number" id="batch-count" value="5" min="1" max="100">
-                            <button id="batch-add-btn">개 추가</button>
-                        </div>
-                        <button id="add-row-btn" class="icon-btn">+</button>
+                        <button id="fill-random-btn" class="secondary-btn-small">현재 목록 무작위 채우기</button>
                     </div>
+                </div>
+                <div class="batch-control-row">
+                    <div class="batch-group">
+                        <input type="number" id="batch-count" value="5" min="1" max="100">
+                        <button id="batch-add-btn">개 추가</button>
+                    </div>
+                    <button id="add-row-btn" title="줄 추가">+</button>
+                    <span id="weekly-cost" class="cost-badge">1,000원/주 (1개)</span>
                 </div>
                 <div id="my-numbers-list" class="my-numbers-list">
                     <!-- 번호 입력 줄이 여기에 추가됨 -->
-                </div>
-                <div class="panel-footer">
-                    <button id="fill-random-btn" class="secondary-btn">현재 목록 무작위 채우기</button>
                 </div>
             </section>
 

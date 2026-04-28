@@ -52,17 +52,34 @@ header h1 {
   min-width: 0;
 }
 
-#add-row-btn {
-  width: 45px;
-  height: 45px;
-  background-color: #2563eb !important; /* Brighter Blue */
+.batch-control-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #334155;
+}
+
+.secondary-btn-small {
+  background: #475569;
   color: white;
-  font-size: 1.8rem;
-  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+}
+
+#add-row-btn {
+  width: 36px;
+  height: 36px;
+  background-color: #2563eb !important;
+  color: white;
+  font-size: 1.5rem;
+  border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
 }
 
 #add-row-btn:hover {
