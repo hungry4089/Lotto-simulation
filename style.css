@@ -14,14 +14,14 @@ body {
   font-family: 'Pretendard', system-ui, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
-  overflow: hidden;
+  overflow: hidden; /* 바디 스크롤 차단 (부들거림 방지) */
 }
 
 #app {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  height: 100dvh;
+  height: 100dvh; /* 최신 모바일 브라우저 대응 */
   padding: 10px;
   box-sizing: border-box;
 }
@@ -38,12 +38,13 @@ header h1 {
   grid-template-columns: 380px 1fr 300px;
   gap: 10px;
   flex: 1;
-  min-height: 0;
+  min-height: 0; /* Flex 자식 스크롤 필수 */
   width: 100%;
-  overflow-y: auto;
+  overflow-y: auto; /* 내부 스크롤 허용 */
   -webkit-overflow-scrolling: touch;
 }
 
+/* Panel Common */
 .panel {
   background: var(--panel-bg);
   border-radius: 12px;
@@ -53,10 +54,11 @@ header h1 {
   box-sizing: border-box;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   min-width: 0;
-  pointer-events: none;
+  pointer-events: none; /* 터치 배경 전달 */
 }
 
-button, input, select, .my-numbers-list {
+/* Interaction Enabled Elements */
+button, input, select, .my-numbers-list, .history-wheel {
   pointer-events: auto;
 }
 
@@ -64,6 +66,7 @@ button, input, select, .my-numbers-list {
   pointer-events: none;
 }
 
+/* --- Left Panel: My Numbers --- */
 .batch-control-row {
   display: flex;
   align-items: center;
@@ -102,7 +105,7 @@ button, input, select, .my-numbers-list {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 10px;
-  pointer-events: auto;
+  min-height: 200px;
 }
 
 .number-row {
@@ -140,13 +143,14 @@ button, input, select, .my-numbers-list {
   transition: all 0.1s;
 }
 
+/* --- Center Panel: Main Simulator --- */
 .history-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  height: 320px; /* 고정 높이 부여하여 페이지 스크롤 보호 */
+  height: 320px;
   min-height: 320px;
-  contain: layout; /* 레이아웃 변화 전파 차단 */
+  contain: layout;
 }
 
 .history-box {
@@ -171,8 +175,9 @@ button, input, select, .my-numbers-list {
   background: #0f172a;
   padding: 5px;
   display: flex;
-  flex-direction: column-reverse; /* 역방향 레이아웃으로 스크롤 안정화 */
+  flex-direction: column-reverse;
   justify-content: flex-end;
+  pointer-events: none;
 }
 
 .history-entry {
@@ -187,12 +192,7 @@ button, input, select, .my-numbers-list {
   flex-shrink: 0;
 }
 
-.entry-balls { 
-  display: flex; 
-  gap: 3px; 
-  flex-wrap: nowrap;
-  align-items: center;
-}
+.entry-balls { display: flex; gap: 3px; flex-wrap: nowrap; align-items: center; }
 
 .entry-ball {
   width: 22px;
@@ -238,12 +238,7 @@ button, input, select, .my-numbers-list {
   color: white;
 }
 
-.bonus-plus {
-  font-weight: bold;
-  color: var(--text-dim);
-  font-size: clamp(1rem, 4vw, 1.5rem);
-  margin: 0 2px;
-}
+.bonus-plus { font-weight: bold; color: var(--text-dim); font-size: clamp(1rem, 4vw, 1.5rem); margin: 0 2px; }
 
 .ball-yellow { background: radial-gradient(circle at 30% 30%, #facc15, #a16207); color: #000; }
 .ball-blue { background: radial-gradient(circle at 30% 30%, #3b82f6, #1d4ed8); }
@@ -266,6 +261,7 @@ button, input, select, .my-numbers-list {
 .win-4 { background: #3b82f6; color: white; }
 .win-5 { background: #22c55e; color: white; }
 
+/* Control Buttons */
 .sim-controls {
   display: flex;
   gap: 10px;
@@ -283,44 +279,8 @@ button:hover { opacity: 0.9; }
 .danger-btn { padding: 10px 15px; background: var(--danger); color: white; }
 .reset-btn { padding: 10px 15px; background: #334155; color: white; }
 
-/* Win Animations */
-@keyframes win-glow {
-    0% { transform: scale(1); filter: brightness(1); }
-    50% { transform: scale(1.1); filter: brightness(1.8) drop-shadow(0 0 10px rgba(255,255,255,0.8)); }
-    100% { transform: scale(1); filter: brightness(1); }
-}
-
-.ball.win-hit { animation: win-glow 0.6s ease-in-out infinite; z-index: 10; }
-
-.celebration-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    pointer-events: none;
-}
-
-.celebration-text {
-    font-size: clamp(2rem, 10vw, 5rem);
-    font-weight: 900;
-    color: var(--gold);
-    text-shadow: 0 0 20px rgba(245, 158, 11, 0.8);
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.firework { position: absolute; width: 5px; height: 5px; border-radius: 50%; }
-
-/* Stats Panel */
-.mini-chart-container { 
-  height: 80px;
-  margin-bottom: 10px;
-  pointer-events: none;
-}
+/* --- Right Panel: Stats --- */
+.mini-chart-container { height: 80px; margin-bottom: 10px; pointer-events: none; }
 .summary-card { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
 .win-count-card { background: rgba(34, 197, 94, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
 .stat-values { display: flex; align-items: center; gap: 8px; }
@@ -335,27 +295,43 @@ button:hover { opacity: 0.9; }
   pointer-events: none;
 }
 
-.label-group {
-  display: flex;
-  box-sizing: border-box;
-  padding: 0 2px;
-}
-
+.label-group { display: flex; box-sizing: border-box; padding: 0 2px; }
 .label-group.g-yellow { flex: 10; justify-content: space-between; border-bottom: 2px solid #facc15; }
 .label-group.g-blue   { flex: 10; justify-content: flex-end; border-bottom: 2px solid #3b82f6; }
 .label-group.g-red    { flex: 10; justify-content: flex-end; border-bottom: 2px solid #ef4444; }
 .label-group.g-gray   { flex: 10; justify-content: flex-end; border-bottom: 2px solid #94a3b8; }
 .label-group.g-green  { flex: 5;  justify-content: flex-end; border-bottom: 2px solid #22c55e; }
-
 .label-group span { transform: translateY(2px); background: var(--panel-bg); padding: 0 2px; }
 
-/* Responsive */
+/* Win Animations */
+@keyframes win-glow {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.1); filter: brightness(1.8) drop-shadow(0 0 10px rgba(255,255,255,0.8)); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+.ball.win-hit { animation: win-glow 0.6s ease-in-out infinite; z-index: 10; }
+
+.celebration-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    pointer-events: none;
+}
+.celebration-text { font-size: clamp(2rem, 10vw, 5rem); font-weight: 900; color: var(--gold); text-shadow: 0 0 20px rgba(245, 158, 11, 0.8); margin-bottom: 20px; text-align: center; }
+.firework { position: absolute; width: 5px; height: 5px; border-radius: 50%; }
+
+/* --- Responsive --- */
 @media (max-width: 1200px) {
   .dashboard {
     grid-template-columns: 1fr;
-    height: auto;
+    /* height: auto; 제거 - 대시보드가 항상 스크롤 가능하도록 유지 */
   }
-  #app { height: auto; }
+  /* #app height: auto; 제거 - 앱 높이를 고정하여 내부 대시보드 스크롤 활성화 */
   .history-container { height: 350px; min-height: 350px; }
 }
 
@@ -363,9 +339,9 @@ button:hover { opacity: 0.9; }
     .sim-controls { flex-direction: column; }
     .history-container { grid-template-columns: 1fr; height: 650px; min-height: 650px; }
     .number-row { flex-wrap: wrap; justify-content: center; }
-    .history-entry { padding: 4px; }
 }
 
+/* Custom Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
