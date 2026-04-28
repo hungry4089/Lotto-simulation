@@ -128,11 +128,18 @@ header h1 {
   font-size: 0.8rem;
 }
 
-.entry-balls { display: flex; gap: 3px; }
+.entry-balls { 
+  display: flex; 
+  gap: 3px; 
+  flex-wrap: nowrap; /* 항상 가로 한 줄 */
+  align-items: center;
+}
+
 .entry-ball {
-  width: 20px;
-  height: 20px;
-  font-size: 0.65rem;
+  width: clamp(18px, 4.5vw, 22px);
+  height: clamp(18px, 4.5vw, 22px);
+  font-size: clamp(0.6rem, 2vw, 0.7rem);
+  flex-shrink: 0;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -140,10 +147,28 @@ header h1 {
   font-weight: bold;
 }
 
+.current-draw {
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow-x: auto; /* 모바일 대응 */
+}
+
+.balls-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(4px, 1.5vw, 10px);
+  flex-wrap: nowrap; /* 항상 가로 한 줄 */
+  min-height: 60px;
+}
+
 .ball {
-  width: clamp(30px, 8vw, 45px);
-  height: clamp(30px, 8vw, 45px);
-  font-size: clamp(0.8rem, 3vw, 1.1rem);
+  width: clamp(32px, 8.5vw, 48px);
+  height: clamp(32px, 8.5vw, 48px);
+  font-size: clamp(0.85rem, 3.5vw, 1.2rem);
+  flex-shrink: 0;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -151,6 +176,13 @@ header h1 {
   font-weight: 800;
   box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.4);
   color: white;
+}
+
+.bonus-plus {
+  font-weight: bold;
+  color: var(--text-dim);
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  margin: 0 2px;
 }
 
 .ball-yellow { background: radial-gradient(circle at 30% 30%, #facc15, #a16207); color: #000; }
@@ -165,6 +197,7 @@ header h1 {
   font-weight: bold;
   font-size: 0.7rem;
   white-space: nowrap;
+  margin-left: 5px;
 }
 
 .win-1 { background: var(--gold); color: black; }
@@ -241,6 +274,7 @@ button:hover { opacity: 0.9; }
     .sim-controls { flex-direction: column; }
     .history-container { grid-template-columns: 1fr; height: 800px; }
     .number-row { flex-wrap: wrap; justify-content: center; }
+    .history-entry { padding: 4px; }
 }
 
 ::-webkit-scrollbar { width: 4px; }
