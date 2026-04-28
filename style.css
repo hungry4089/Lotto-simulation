@@ -294,9 +294,10 @@ button:hover { opacity: 0.9; }
 }
 
 .odds-info {
-  font-size: 0.85rem; /* 당첨 확률 키움 */
-  color: var(--text-dim);
-  font-weight: normal;
+  font-size: 0.85rem;
+  color: #ffffff; /* 흰색으로 변경 */
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 .chart-label-groups {

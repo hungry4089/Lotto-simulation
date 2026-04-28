@@ -440,9 +440,10 @@ function resetSimulation() {
     state.frequencies.fill(0);
     state.winStats = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     
-    document.getElementById('draw-count').textContent = '0회 시도';
+    document.getElementById('draw-count').textContent = '0회 추첨';
+    document.getElementById('total-count-summary').textContent = '0개';
     document.getElementById('total-cost').textContent = '0원';
-    document.getElementById('total-time').textContent = '0주';
+
     document.getElementById('history-wheel').innerHTML = '';
     document.getElementById('win-history-wheel').innerHTML = '';
     document.getElementById('current-balls').innerHTML = '';
@@ -454,5 +455,8 @@ function resetSimulation() {
     if (state.miniChart) {
         state.miniChart.data.datasets[0].data = state.frequencies.slice(1);
         state.miniChart.update();
+    }
+}
+     state.miniChart.update();
     }
 }
