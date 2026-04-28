@@ -80,10 +80,10 @@ function updateHistoryWheel(winningResult, highestRank, isWinHistory = false) {
         entry.appendChild(tag);
     }
 
-    wheel.prepend(entry);
+    wheel.appendChild(entry);
     
     const limit = 8;
-    if (wheel.childNodes.length > limit) wheel.removeChild(wheel.lastChild);
+    if (wheel.childNodes.length > limit) wheel.removeChild(wheel.firstChild);
 }
 
 function updateStats(numbers) {
