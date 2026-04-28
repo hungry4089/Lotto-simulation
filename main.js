@@ -56,15 +56,11 @@ function updateHistoryWheel(winningResult, highestRank, isWinHistory = false) {
     const entry = document.createElement('div');
     entry.className = 'history-entry';
     
-    // Create a Set of all numbers currently in the user's list for efficient lookup
-    const allMyNumbers = new Set(state.myNumberSets.flat());
-    
     const ballsDiv = document.createElement('div');
     ballsDiv.className = 'entry-balls';
     winningResult.numbers.forEach(n => {
         const b = document.createElement('div');
         b.className = `entry-ball ${getBallColorClass(n)}`;
-        if (allMyNumbers.has(n)) b.classList.add('history-hit');
         b.textContent = n;
         ballsDiv.appendChild(b);
     });
@@ -72,7 +68,6 @@ function updateHistoryWheel(winningResult, highestRank, isWinHistory = false) {
     ballsDiv.appendChild(plus);
     const bonusB = document.createElement('div');
     bonusB.className = `entry-ball ${getBallColorClass(winningResult.bonus)}`;
-    if (allMyNumbers.has(winningResult.bonus)) bonusB.classList.add('history-hit');
     bonusB.textContent = winningResult.bonus;
     ballsDiv.appendChild(bonusB);
 
@@ -87,7 +82,6 @@ function updateHistoryWheel(winningResult, highestRank, isWinHistory = false) {
 
     wheel.prepend(entry);
     
-    // Performance: limit history size
     const limit = isWinHistory ? 100 : 50;
     if (wheel.childNodes.length > limit) wheel.removeChild(wheel.lastChild);
 }
@@ -149,6 +143,23 @@ function initChart() {
 let animationFrameId = null;
 let lastTimestamp = 0;
 
+function highlightMyNumbers(winningNumbers, bonus) {
+    const rows = document.querySelectorAll('.number-row');
+    const winSet = new Set(winningNumbers);
+    
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        inputs.forEach(input => {
+            const val = parseInt(input.value);
+            if (!isNaN(val) && (winSet.has(val) || val === bonus)) {
+                input.classList.add('input-hit');
+            } else {
+                input.classList.remove('input-hit');
+            }
+        });
+    });
+}
+
 function performDraws(batchSize) {
     let lastDraw = null;
     let lastWinHits = [];
@@ -169,7 +180,9 @@ function performDraws(batchSize) {
                 
                 if (i === batchSize - 1) {
                     const inputs = row.querySelectorAll('input');
-                    inputs.forEach((inp, idx) => inp.value = rnd[idx]);
+                    inputs.forEach((inp, idx) => {
+                        inp.value = rnd[idx];
+                    });
                 }
             });
         } else {
@@ -190,22 +203,23 @@ function performDraws(batchSize) {
             }
         });
 
-        // Log to real-time history (all draws)
+        // 실시간 추첨 내역 업데이트
         updateHistoryWheel(draw, currentHighest, false);
 
         if (currentHighest > 0) {
-            // Log to winning history
             updateHistoryWheel(draw, currentHighest, true);
             lastWinHits = hitsForHighest;
             if (currentHighest === 1) {
                 triggerCelebration();
                 stopSimulation(`축하합니다! 1등 당첨입니다!`);
                 renderCurrentBalls(draw, hitsForHighest);
+                highlightMyNumbers(draw.numbers, draw.bonus);
                 return true;
             }
             if (currentHighest <= state.targetRank) {
                 stopSimulation(`축하합니다! ${currentHighest}등에 당첨되어 중단합니다.`);
                 renderCurrentBalls(draw, hitsForHighest);
+                highlightMyNumbers(draw.numbers, draw.bonus);
                 return true;
             }
         }
@@ -215,7 +229,11 @@ function performDraws(batchSize) {
     document.getElementById('draw-count').textContent = `${state.drawCount.toLocaleString()}회 시도`;
     document.getElementById('total-cost').textContent = `${totalSpent.toLocaleString()}원`;
     document.getElementById('total-time').textContent = formatTime(state.drawCount);
-    renderCurrentBalls(lastDraw, lastWinHits);
+    
+    if (lastDraw) {
+        renderCurrentBalls(lastDraw, lastWinHits);
+        highlightMyNumbers(lastDraw.numbers, lastDraw.bonus);
+    }
     return false;
 }
 
@@ -270,9 +288,6 @@ function simLoop(timestamp) {
             lastTimestamp = timestamp;
         }
     } else {
-        // High speed mode: 11~100 (more draws per frame)
-        // Note: Logging ALL draws at high speed may impact performance, 
-        // but we'll try to keep it balanced by limiting DOM size in updateHistoryWheel.
         const batchSize = Math.floor((speed - 10) * 0.2) + 1;
         shouldStop = performDraws(batchSize);
     }
