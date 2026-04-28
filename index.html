@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로또 킹 : 원뷰 시뮬레이터</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>😊 행복한 로또 시뮬레이션</h1>
+        </header>
+
+        <main class="dashboard">
+            <!-- 좌측: 내 번호 설정 -->
+            <section class="panel my-numbers-panel">
+                <div class="panel-header">
+                    <div class="title-group">
+                        <h3>내 번호 목록</h3>
+                    </div>
+                    <div class="header-actions">
+                        <label class="checkbox-label-inline">
+                            <input type="checkbox" id="random-each-draw-toggle"> 매회 무작위
+                        </label>
+                        <span id="weekly-cost" class="cost-badge">1,000원/주 (1개)</span>
+                        <div class="batch-group">
+                            <input type="number" id="batch-count" value="5" min="1" max="100">
+                            <button id="batch-add-btn">개 추가</button>
+                        </div>
+                        <button id="add-row-btn" class="icon-btn">+</button>
+                    </div>
+                </div>
+                <div id="my-numbers-list" class="my-numbers-list">
+                    <!-- 번호 입력 줄이 여기에 추가됨 -->
+                </div>
+                <div class="panel-footer">
+                    <button id="fill-random-btn" class="secondary-btn">현재 목록 무작위 채우기</button>
+                </div>
+            </section>
+
+            <!-- 중앙: 메인 시뮬레이터 -->
+            <section class="panel main-sim-panel">
+                <div class="sim-controls">
+                    <div class="speed-control">
+                        <label>속도:</label>
+                        <input type="range" id="speed-slider" min="1" max="100" value="100">
+                    </div>
+                    <div class="target-select">
+                        <label>목표:</label>
+                        <select id="target-rank">
+                            <option value="1">1등 당첨될 때까지</option>
+                            <option value="2">2등 이상 당첨될 때까지</option>
+                            <option value="3">3등 이상 당첨될 때까지</option>
+                            <option value="4">4등 이상 당첨될 때까지</option>
+                            <option value="5">5등 이상 당첨될 때까지</option>
+                        </select>
+                    </div>
+                    <button id="start-btn" class="primary-btn">시작</button>
+                    <button id="stop-btn" class="danger-btn" style="display:none;">중단</button>
+                    <button id="reset-btn" class="reset-btn">초기화</button>
+                </div>
+
+                <div class="current-draw">
+                    <div id="current-balls" class="balls-container">
+                        <!-- 현재 추첨 중인 공들 -->
+                    </div>
+                </div>
+
+                <div class="history-wheel-container">
+                    <div class="history-header">
+                        <span>실시간 추첨 내역</span>
+                        <span id="draw-count">0회 시도</span>
+                    </div>
+                    <div id="history-wheel" class="history-wheel">
+                        <!-- 실시간 추첨 내역 휠 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 우측: 정보 및 통계 -->
+            <section class="panel info-panel">
+                <div class="stats-card">
+                    <h4>번호별 출현 빈도</h4>
+                    <div class="mini-chart-container">
+                        <canvas id="mini-freq-chart"></canvas>
+                    </div>
+                    <div class="chart-label">
+                        <span class="num-indicator">1</span>
+                        <span class="dots">.....................</span>
+                        <span class="num-indicator">45</span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-item">
+                        <span class="label">총 지출</span>
+                        <span id="total-cost" class="value">0원</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">소요 시간</span>
+                        <span id="total-time" class="value">0주</span>
+                    </div>
+                </div>
+
+                <div class="win-count-card">
+                    <h4>내 당첨 통계</h4>
+                    <div class="win-stat-item"><span>1등</span> <strong id="stat-win-1">0회</strong></div>
+                    <div class="win-stat-item"><span>2등</span> <strong id="stat-win-2">0회</strong></div>
+                    <div class="win-stat-item"><span>3등</span> <strong id="stat-win-3">0회</strong></div>
+                    <div class="win-stat-item"><span>4등</span> <strong id="stat-win-4">0회</strong></div>
+                    <div class="win-stat-item"><span>5등</span> <strong id="stat-win-5">0회</strong></div>
+                </div>
+
+                <div class="odds-card">
+                    <h4>당첨 확률 정보</h4>
+                    <ul>
+                        <li><span>1등</span> 1/8,145,060</li>
+                        <li><span>2등</span> 1/1,357,510</li>
+                        <li><span>3등</span> 1/35,724</li>
+                        <li><span>4등</span> 1/733</li>
+                        <li><span>5등</span> 1/45</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="/main.js"></script>
+</body>
+</html>

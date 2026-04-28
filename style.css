@@ -1,0 +1,375 @@
+:root {
+  --bg-color: #0f172a;
+  --panel-bg: #1e293b;
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --accent: #6366f1;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --gold: #f59e0b;
+}
+
+body {
+  margin: 0;
+  font-family: 'Pretendard', system-ui, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+header h1 {
+  margin: 0 0 10px 0;
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+
+header h1 small { font-size: 0.8rem; color: var(--text-dim); }
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 440px 1fr 300px;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+}
+
+.chart-label {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-top: 5px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  font-weight: bold;
+}
+
+.chart-label .num-indicator {
+  background: #334155;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+}
+
+.dots { color: #334155; letter-spacing: 2px; }
+
+.win-count-card {
+  background: rgba(34, 197, 94, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.win-count-card h4 { margin: 0 0 8px 0; font-size: 0.9rem; color: var(--success); }
+
+.win-stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 2px 0;
+}
+
+.win-stat-item span { color: var(--text-dim); }
+.win-stat-item strong { color: var(--text-main); }
+
+.panel {
+  background: var(--panel-bg);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cost-badge {
+  font-size: 0.75rem;
+  background: var(--accent);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.batch-group {
+  display: flex;
+  align-items: center;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.batch-group input {
+  width: 45px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  padding: 0 5px;
+  font-size: 0.85rem;
+  color: white;
+  outline: none;
+}
+
+.batch-group button {
+  background: #334155;
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.checkbox-label-inline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  background: rgba(0,0,0,0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #334155;
+}
+
+.checkbox-label-inline input {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+}
+
+/* My Numbers List */
+.my-numbers-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.number-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  background: rgba(0,0,0,0.2);
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.number-row input {
+  width: 38px;
+  height: 38px;
+  text-align: center;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.remove-row-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  transition: all 0.2s;
+  margin-left: 5px;
+}
+
+.remove-row-btn:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.reset-btn {
+  padding: 10px 15px;
+  background: #334155;
+  color: white;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.panel-footer {
+  order: -1;
+  margin-bottom: 15px;
+}
+
+/* Central Panel */
+.sim-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.speed-control input[type="range"] {
+  width: 100px;
+  cursor: pointer;
+}
+
+.target-select { display: flex; align-items: center; gap: 8px; }
+select { padding: 8px; border-radius: 6px; background: #0f172a; color: white; border: 1px solid #334155; }
+
+.current-draw {
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.balls-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-height: 50px;
+}
+
+.ball {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.4);
+  color: white;
+}
+
+.ball-yellow { background: radial-gradient(circle at 30% 30%, #facc15, #a16207); color: #000; }
+.ball-blue { background: radial-gradient(circle at 30% 30%, #3b82f6, #1d4ed8); }
+.ball-red { background: radial-gradient(circle at 30% 30%, #ef4444, #b91c1c); }
+.ball-gray { background: radial-gradient(circle at 30% 30%, #94a3b8, #475569); }
+.ball-green { background: radial-gradient(circle at 30% 30%, #22c55e, #15803d); }
+
+/* History Wheel */
+.history-wheel-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 5px;
+}
+
+.history-wheel {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #0f172a;
+  padding: 5px;
+}
+
+.history-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #1e293b;
+  font-size: 0.9rem;
+}
+
+.entry-balls { display: flex; gap: 4px; }
+.entry-ball {
+  width: 22px;
+  height: 22px;
+  font-size: 0.7rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.win-tag {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+.win-1 { background: var(--gold); color: black; }
+.win-2 { background: #e2e8f0; color: black; }
+.win-3 { background: #fbbf24; color: black; }
+.win-4 { background: #3b82f6; color: white; }
+.win-5 { background: #22c55e; color: white; }
+
+/* Buttons */
+button { cursor: pointer; border: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
+button:hover { opacity: 0.9; }
+
+.icon-btn { width: 30px; height: 30px; background: var(--accent); color: white; font-size: 1.2rem; }
+.primary-btn { padding: 10px 20px; background: var(--accent); color: white; }
+.danger-btn { padding: 10px 20px; background: var(--danger); color: white; }
+.secondary-btn { padding: 8px; background: #475569; color: white; width: 100%; }
+
+/* Stats Panel */
+.mini-chart-container { height: 180px; margin-bottom: 15px; }
+.summary-card { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px; }
+.summary-item { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.summary-item .label { color: var(--text-dim); font-size: 0.85rem; }
+.summary-item .value { font-weight: bold; color: var(--gold); }
+
+.odds-card ul { list-style: none; padding: 0; margin: 0; font-size: 0.85rem; }
+.odds-card li { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #334155; }
+.odds-card li span { color: var(--text-dim); }
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .dashboard { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr auto; height: auto; }
+  .history-wheel { height: 300px; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
