@@ -113,6 +113,16 @@ header h1 {
   font-weight: bold;
 }
 
+/* My Numbers Highlight */
+.number-row input.input-hit {
+  border-color: #22c55e !important;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+  background: rgba(34, 197, 94, 0.1) !important;
+  color: #4ade80 !important;
+  transform: scale(1.05);
+  transition: all 0.1s;
+}
+
 /* History Side-by-Side */
 .history-container {
   display: grid;
@@ -144,6 +154,7 @@ header h1 {
   background: #0f172a;
   padding: 5px;
   min-height: 200px;
+  overscroll-behavior: contain; /* 스크롤 고립시켜 부모 스크롤 방해 금지 */
 }
 
 .history-entry {
@@ -158,7 +169,7 @@ header h1 {
 .entry-balls { 
   display: flex; 
   gap: 3px; 
-  flex-wrap: nowrap; /* 항상 가로 한 줄 */
+  flex-wrap: nowrap;
   align-items: center;
 }
 
@@ -167,7 +178,7 @@ header h1 {
   height: clamp(20px, 4.5vw, 24px);
   font-size: clamp(0.65rem, 2vw, 0.75rem);
   flex-shrink: 0;
-  border-radius: 50% !important; /* 무조건 동그라미 유지 */
+  border-radius: 50% !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -175,26 +186,12 @@ header h1 {
   position: relative;
 }
 
-.entry-ball.history-hit {
-  box-shadow: 0 0 8px 2px rgba(34, 197, 94, 0.8); /* 은은한 초록색 광채 */
-  z-index: 1;
-}
-
-.entry-ball.history-hit::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border-radius: 50%;
-  background: rgba(34, 197, 94, 0.2);
-  pointer-events: none;
-}
-
 .current-draw {
   padding: 20px;
   background: rgba(0,0,0,0.3);
   border-radius: 12px;
   margin-bottom: 20px;
-  overflow-x: auto; /* 모바일 대응 */
+  overflow-x: auto;
 }
 
 .balls-container {
@@ -202,7 +199,7 @@ header h1 {
   justify-content: center;
   align-items: center;
   gap: clamp(4px, 1.5vw, 10px);
-  flex-wrap: nowrap; /* 항상 가로 한 줄 */
+  flex-wrap: nowrap;
   min-height: 60px;
 }
 
@@ -301,6 +298,26 @@ button:hover { opacity: 0.9; }
 .mini-chart-container { height: 150px; margin-bottom: 15px; }
 .summary-card { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
 .win-count-card { background: rgba(34, 197, 94, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+
+.chart-label {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-top: 5px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+  font-weight: bold;
+}
+
+.chart-label .num-indicator {
+  background: #334155;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: white;
+}
 
 /* Responsive */
 @media (max-width: 1200px) {
