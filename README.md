@@ -5,15 +5,9 @@
 ---
 
 ### 🚀 [웹에서 바로 실행하기 (클릭)](https://lotto-simulation.pages.dev)
-별도의 다운로드나 설치 없이 브라우저에서 바로 실행하실 수 있습니다.
+별도의 다운로드나 설치 없이 스마트폰, PC 등 모든 기기에서 바로 실행하실 수 있습니다.
 
 [![Play Lotto Simulation](https://img.shields.io/badge/🎲_로또_시뮬레이션-바로_실행하기-success?style=for-the-badge&logo=cloudflare&logoColor=white)](https://lotto-simulation.pages.dev)
-
----
-
-### 💻 내 컴퓨터에서 오프라인으로 실행하기
-1. 프로젝트 폴더 내의 **`실행하기.bat`** 파일을 더블 클릭합니다.
-2. 기본 브라우저(Chrome, Edge 등)에서 즉시 실행됩니다.
 
 ---
 
